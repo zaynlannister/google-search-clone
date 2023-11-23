@@ -1,5 +1,5 @@
 const VideoSection = () => {
-  return <div>video</div>;
+  return <div>Скоро...</div>;
 };
 
 export default VideoSection;

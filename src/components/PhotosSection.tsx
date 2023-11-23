@@ -1,5 +1,5 @@
 const PhotosSection = () => {
-  return <div>photos</div>;
+  return <div>Скоро...</div>;
 };
 
 export default PhotosSection;

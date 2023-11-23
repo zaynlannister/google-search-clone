@@ -7,6 +7,7 @@ import ResultSection from "./ResultSection";
 import VideoSection from "./VideoSection";
 import PhotosSection from "./PhotosSection";
 import { useLocation, useNavigate } from "react-router-dom";
+import fetchData from "../helpers/fetchData";
 const nav = [
   { link: "all", name: "Все" },
   { link: "video", name: "Видео" },
@@ -15,26 +16,37 @@ const nav = [
 
 const SearchPage = () => {
   const navigate = useNavigate();
-  const searcVal = useLocation().search.split("=")[1];
+  const searchVal = useLocation().search.split("=")[1].replace(/%20/g, " ");
   const [defaultValue, setDefault] = React.useState("all");
-  const [search, setSearch] = React.useState(searcVal);
+  const [search, setSearch] = React.useState(searchVal);
+
+  const [data, setData] = React.useState<any>({});
+
+  const clearSearch = () => {
+    setSearch("");
+  };
 
   const handleSearch = () => {
     navigate(`?search=${search}`);
+    fetchData(search, setData);
   };
+
+  React.useEffect(() => {
+    handleSearch();
+  }, []);
 
   return (
     <StyledSearcSection>
       <div className="header">
         <span onClick={() => navigate("/")}>
-          <GoogleIcon width="92px" height="30px" />
+          <GoogleIcon className="google-icon" width="92px" height="30px" />
         </span>
         <div className="header-search">
           <div className="header-container relative w-fit">
             <input
               type="text"
               className="header-input"
-              placeholder="some text"
+              placeholder="Поиск..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => {
@@ -44,7 +56,13 @@ const SearchPage = () => {
               }}
             />
             <span className="header-icons absolute">
-              <ClearIcon title="Очистить" className="header-icons__clear" />
+              <ClearIcon
+                onClick={clearSearch}
+                title="Очистить"
+                className={`header-icons__clear ${
+                  search.length ? "" : "hidden"
+                }`}
+              />
               <SearchIcon
                 title="Поиск"
                 fill="#4285f4"
@@ -66,20 +84,38 @@ const SearchPage = () => {
               }`}
               key={index}
             >
-              <a href={`#${item.link}`}>{item.name}</a>
+              <a className="cursor-pointer">{item.name}</a>
             </span>
           ))}
         </div>
-        <div className="search-result flex gap-20 mt-8">
+        <div className="search-result flex gap-28 mt-8">
           {defaultValue === "all" ? (
-            <ResultSection />
+            <ResultSection data={data} />
           ) : defaultValue === "video" ? (
             <VideoSection />
           ) : (
             <PhotosSection />
           )}
-
-          <p>right content</p>
+          {data.knowledgeGraph &&
+            data.knowledgeGraph.description &&
+            defaultValue === "all" && (
+              <div className="w-[370px] border border-[#dadce0] h-fit rounded-[10px] right-content">
+                <div className=" border-b border-b-[#dadce0]">
+                  <p className="text-[28px] p-4">{data.knowledgeGraph.title}</p>
+                </div>
+                <div className="p-4">
+                  <p className="text-[#4d5156] text-[14px] mb-4">
+                    {data.knowledgeGraph.description}
+                  </p>
+                  <a
+                    className="text-[#1a0dab]"
+                    href={data.knowledgeGraph.descriptionLink}
+                  >
+                    {data.knowledgeGraph.descriptionSource}
+                  </a>
+                </div>
+              </div>
+            )}
         </div>
       </div>
     </StyledSearcSection>
@@ -144,6 +180,22 @@ const StyledSearcSection = styled.div`
   @media (max-width: 585px) {
     .header-input {
       width: 100%;
+    }
+  }
+
+  @media (max-width: 1260px) {
+    .right-content {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .header {
+      gap: 20px;
+    }
+    .google-icon {
+      width: 50px;
+      height: 30px;
     }
   }
 `;

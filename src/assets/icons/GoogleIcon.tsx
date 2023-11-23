@@ -1,4 +1,8 @@
-const GoogleIcon = (props: { width?: string; height?: string }) => {
+const GoogleIcon = (props: {
+  width?: string;
+  height?: string;
+  className?: string;
+}) => {
   return (
     <svg
       cursor="pointer"

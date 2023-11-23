@@ -3,6 +3,7 @@ const ClearIcon = (props: {
   height?: string;
   className?: string;
   title?: string;
+  onClick?: () => void;
 }) => {
   return (
     <svg
