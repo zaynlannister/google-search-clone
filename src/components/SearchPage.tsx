@@ -27,8 +27,8 @@ const SearchPage = () => {
   };
 
   const handleSearch = () => {
-    navigate(`?search=${search}`);
-    fetchData(search, setData);
+    navigate(`?search=${decodeURIComponent(search)}`);
+    fetchData(decodeURIComponent(search), setData);
   };
 
   React.useEffect(() => {
@@ -47,7 +47,7 @@ const SearchPage = () => {
               type="text"
               className="header-input"
               placeholder="Поиск..."
-              value={search}
+              value={decodeURIComponent(search)}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
