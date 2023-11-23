@@ -1,6 +1,7 @@
 const GoogleIcon = (props: { width?: string; height?: string }) => {
   return (
     <svg
+      cursor="pointer"
       width="272px"
       height="92px"
       viewBox="0 0 272 92"

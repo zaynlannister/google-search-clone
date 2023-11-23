@@ -6,7 +6,7 @@ import ClearIcon from "../assets/icons/ClearIcon";
 import ResultSection from "./ResultSection";
 import VideoSection from "./VideoSection";
 import PhotosSection from "./PhotosSection";
-
+import { useLocation, useNavigate } from "react-router-dom";
 const nav = [
   { link: "all", name: "Все" },
   { link: "video", name: "Видео" },
@@ -14,18 +14,34 @@ const nav = [
 ];
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+  const searcVal = useLocation().search.split("=")[1];
   const [defaultValue, setDefault] = React.useState("all");
+  const [search, setSearch] = React.useState(searcVal);
+
+  const handleSearch = () => {
+    navigate(`?search=${search}`);
+  };
 
   return (
     <StyledSearcSection>
       <div className="header">
-        <GoogleIcon width="92px" height="30px" />
+        <span onClick={() => navigate("/")}>
+          <GoogleIcon width="92px" height="30px" />
+        </span>
         <div className="header-search">
           <div className="header-container relative w-fit">
             <input
               type="text"
               className="header-input"
               placeholder="some text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
             />
             <span className="header-icons absolute">
               <ClearIcon title="Очистить" className="header-icons__clear" />
@@ -63,7 +79,7 @@ const SearchPage = () => {
             <PhotosSection />
           )}
 
-          <p>right</p>
+          <p>right content</p>
         </div>
       </div>
     </StyledSearcSection>
