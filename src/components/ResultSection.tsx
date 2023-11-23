@@ -43,7 +43,9 @@ const ResultSection = (props: any) => {
                   <a className="text-[#1a0dab]" href={item.link}>
                     {item.title}
                   </a>
-                  <p className="text-[#4d5156] text-[14px]">{item.link}</p>
+                  <p className="text-[#4d5156] text-[14px]">
+                    {truncateText(decodeURIComponent(item.link))}
+                  </p>
                 </div>
               ))}
           </div>
