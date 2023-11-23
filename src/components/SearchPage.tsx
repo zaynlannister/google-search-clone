@@ -113,12 +113,21 @@ const StyledSearcSection = styled.div`
     .header {
       width: min(650px, 100%);
       padding-inline: 20px;
-      &-input {
-        width: 400px;
-      }
     }
     .search-container {
       padding-inline: 20px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .header-input {
+      width: 400px;
+    }
+  }
+
+  @media (max-width: 585px) {
+    .header-input {
+      width: 100%;
     }
   }
 `;
