@@ -28,7 +28,10 @@ const App = () => {
             </span>
             <div className="main-search mt-10">
               <div className="main-search__container relative">
-                <span className="main-search__icon absolute">
+                <span
+                  onClick={handleSearch}
+                  className="main-search__icon absolute"
+                >
                   <SearchIcon width="24px" height="24px" />
                 </span>
                 <input
